@@ -1,0 +1,42 @@
+Программа для считывания и записи строкового значения из текстового файла с последующей записью его в другой текстовый файл. Для работы с файлами используются функции Linux.
+
+Шаг 1. В файле main.c напишем следующий код.
+
+``` C
+
+#include <dlfcn.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <malloc.h>
+
+int main(){
+	int file = open("file.txt", O_RDWR | O_CREAT, S_IRWXU);
+	char* buffer = calloc(100, sizeof(char));
+	
+	int readIs = read(file, buffer, 100);
+	
+	if(readIs == -1){
+		buffer[strlen(buffer)] = '\0';
+		
+		int fileWrite = open("answer.txt", O_RDWR | O_CREAT | O_TRUNC, S_IRWXU);
+		
+		int isWrite = write(fileWrite, buffer, strlen(buffer));
+	}
+}
+
+```
+
+Шаг 2. Создадим в корне проекта рядом в main.c файл с названием file.txt и напишем любой текст. 
+
+Шаг 3. Запустим проект
+
+``` 
+
+gcc main.c
+./a.out
+
+```
